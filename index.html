@@ -455,6 +455,17 @@ document.addEventListener('contextmenu', function(e) { e.preventDefault(); });
                     </div>
                 </div>
             </div>
+            
+            <!-- 기부 영역 (QR 코드) - 모바일 고정 문제 해결을 위해 왼쪽 패널로 이동 -->
+            <div class="donation-area">
+                <h4><i class="fas fa-coffee"></i> <span data-lang="donation_title">[개발자에게 커피 쏘기]</span></h4>
+                <div class="donation-link">
+                    <div class="qr-wrapper">
+                        <img src="QR코드.png" class="qr-img" alt="QR Code" onerror="this.src=''; this.alt='QR코드.png 파일이 같은 폴더에 있는지 확인해주세요';">
+                        <div style="font-size: 10px; color: #333; margin-top: 5px;">Kakaopay QR</div>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <div class="center-panel-wrapper">
@@ -474,15 +485,6 @@ document.addEventListener('contextmenu', function(e) { e.preventDefault(); });
                         <span><i class="fas fa-file-image"></i> 1280x720 (Max 2MB)</span>
                     </div>
                     <button class="btn btn-success" id="saveBtn" onclick="downloadImage()"><i class="fas fa-download"></i> <span data-lang="btn_save">썸네일 저장하기 (자동 최적화)</span></button>
-                    <div class="donation-area">
-                        <h4><i class="fas fa-coffee"></i> <span data-lang="donation_title">[개발자에게 커피 쏘기]</span></h4>
-                        <div class="donation-link">
-                            <div class="qr-wrapper">
-                                <img src="QR코드.png" class="qr-img" alt="QR Code" onerror="this.src=''; this.alt='QR코드.png 파일이 같은 폴더에 있는지 확인해주세요';">
-                                <div style="font-size: 10px; color: #333; margin-top: 5px;">Kakaopay QR</div>
-                            </div>
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>
@@ -1012,7 +1014,7 @@ function drawOverlays() {
     }
     if (document.getElementById('checkSafeZone').checked) {
         let timeScale = 1;
-        if (previewMode === 'main') timeScale = 0.85;
+        if (previewMode === 'main') timeScale = 0.85; // 메인 화면 비율 조정
         else if (previewMode === 'mobile') timeScale = 1.6;
 
         const timeText = "4:14";
@@ -1083,12 +1085,11 @@ function drawOverlays() {
         ctx.fillStyle = 'white'; ctx.font = '30px FontAwesome'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.fillText('\uf001', 60, 60);
     }
     
-    // --- 그리드 스타일 변경 (노란색 점선 굵게) ---
     if (activeGrid > 0) {
         ctx.save();
-        ctx.strokeStyle = '#FFFF00'; // 노란색
-        ctx.lineWidth = 2; // 조금 더 굵게
-        ctx.setLineDash([10, 10]); // 점선
+        ctx.strokeStyle = '#FFFF00'; 
+        ctx.lineWidth = 2; 
+        ctx.setLineDash([10, 10]); 
         ctx.beginPath();
         const stepX = 1280 / activeGrid; const stepY = 720 / activeGrid;
         for (let i = 1; i < activeGrid; i++) { 
