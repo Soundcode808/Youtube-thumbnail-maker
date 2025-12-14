@@ -69,6 +69,7 @@ h2 i { color: #ff0000; margin-right: 10px; }
 /* 1. 왼쪽 컨트롤 패널 */
 .control-panel { 
     overflow-y: auto; padding-right: 5px; height: 100%; padding-bottom: 50px; 
+    /* QR코드 제거로 인한 스타일 원복 */
 }
 
 .top-toolbar-group {
@@ -135,7 +136,9 @@ details[open] .font-list-summary::after { transform: rotate(180deg); }
 #canvas-wrapper {
     width: 100%; max-width: 100%; aspect-ratio: 16/9; max-height: 60vh;
     border-radius: 12px; overflow: hidden; box-shadow: 0 0 20px rgba(0,0,0,0.5);
-    border: 1px solid #444; background: #000; margin: auto; margin-bottom: 15px;
+    border: 1px solid #444; background: #000; 
+    margin: 0 auto; 
+    margin-bottom: 15px;
     display: flex; justify-content: center; align-items: center; position: relative;
     cursor: crosshair; touch-action: none; flex-shrink: 0;
 }
@@ -143,7 +146,14 @@ details[open] .font-list-summary::after { transform: rotate(180deg); }
 @supports not (aspect-ratio: 16/9) { #canvas-wrapper { height: 0; padding-bottom: 56.25%; } }
 canvas { max-width: 100%; max-height: 100%; object-fit: contain; }
 
-.donation-area { margin-top: 20px; padding-top: 15px; border-top: 1px dashed #444; text-align: center; }
+.donation-area { 
+    margin-top: 30px; 
+    padding-top: 20px; 
+    border-top: 1px dashed #444; 
+    text-align: center; 
+    width: 100%; 
+    padding-bottom: 30px; /* 하단 여백 추가 */
+}
 .donation-area h4 { font-size: 14px; margin-bottom: 10px; color: #FFD700; }
 .qr-wrapper {
     display: inline-block; padding: 10px; background: #fff; border-radius: 12px;
@@ -257,7 +267,11 @@ input[type="color"] { width: 30px; height: 30px; border: none; background: none;
 }
 @media (max-width: 900px) {
     body { height: auto; overflow: auto; padding: 10px; }
-    .container { display: flex; flex-direction: column; height: auto; padding: 10px; }
+    .container { 
+        display: flex; flex-direction: column; 
+        height: auto; min-height: calc(100vh - 40px); /* 높이 고정 해제 및 최소 높이 설정 */
+        padding: 10px; 
+    }
     .workspace { display: flex; flex-direction: column; height: auto; overflow: visible; gap: 10px; }
     .control-panel { height: auto; padding-right: 0; }
     
@@ -292,6 +306,7 @@ input[type="color"] { width: 30px; height: 30px; border: none; background: none;
     .social-links { transform: scale(0.9); }
     .lang-selector select { padding: 4px 8px; font-size: 11px; }
     #canvas-wrapper { max-height: none; margin-bottom: 5px; }
+    .donation-area { margin-top: 15px; } /* 모바일에서 간격 조정 */
 }
 </style>
 <script>
@@ -473,17 +488,7 @@ document.addEventListener('contextmenu', function(e) { e.preventDefault(); });
                     </div>
                 </div>
             </div>
-            
-            <!-- 기부 영역 (QR 코드) - 모바일 고정 문제 해결을 위해 왼쪽 패널로 이동 -->
-            <div class="donation-area">
-                <h4><i class="fas fa-coffee"></i> <span data-lang="donation_title">[개발자에게 커피 쏘기]</span></h4>
-                <div class="donation-link">
-                    <div class="qr-wrapper">
-                        <img src="QR코드.png" class="qr-img" alt="QR Code" onerror="this.src=''; this.alt='QR코드.png 파일이 같은 폴더에 있는지 확인해주세요';">
-                        <div style="font-size: 10px; color: #333; margin-top: 5px;">Kakaopay QR</div>
-                    </div>
-                </div>
-            </div>
+            <!-- 왼쪽 메뉴에서는 QR코드 삭제 -->
         </div>
 
         <div class="center-panel-wrapper">
@@ -503,6 +508,16 @@ document.addEventListener('contextmenu', function(e) { e.preventDefault(); });
                         <span><i class="fas fa-file-image"></i> 1280x720 (Max 2MB)</span>
                     </div>
                     <button class="btn btn-success" id="saveBtn" onclick="downloadImage()"><i class="fas fa-download"></i> <span data-lang="btn_save">썸네일 저장하기 (자동 최적화)</span></button>
+                </div>
+                <!-- QR 코드 영역을 여기로 이동 -->
+                <div class="donation-area">
+                    <h4><i class="fas fa-coffee"></i> <span data-lang="donation_title">[개발자에게 커피 쏘기]</span></h4>
+                    <div class="donation-link">
+                        <div class="qr-wrapper">
+                            <img src="QR코드.png" class="qr-img" alt="QR Code" onerror="this.src=''; this.alt='QR코드.png 확인 필요';">
+                            <div style="font-size: 10px; color: #333; margin-top: 5px;">Kakaopay QR</div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -956,6 +971,7 @@ function applyPreset(type) {
     drawCanvas(); renderLayersUI();
 }
 
+// Mouse Events
 canvas.addEventListener('mousedown', e => {
     const rect = canvas.getBoundingClientRect();
     const x = (e.clientX - rect.left) * (canvas.width / rect.width);
@@ -983,6 +999,57 @@ canvas.addEventListener('mousemove', e => {
     drawCanvas();
 });
 canvas.addEventListener('mouseup', () => { isDragging = false; dragLayerIndex = -1; });
+
+// Touch Events (모바일 지원 개선)
+canvas.addEventListener('touchstart', e => {
+    const touch = e.touches[0];
+    const rect = canvas.getBoundingClientRect();
+    const x = (touch.clientX - rect.left) * (canvas.width / rect.width);
+    const y = (touch.clientY - rect.top) * (canvas.height / rect.height);
+    
+    // 모바일에서는 터치 영역을 좀 더 관대하게(폰트 사이즈의 2배 범위)
+    for (let i = layers.length - 1; i >= 0; i--) {
+        const l = layers[i]; 
+        ctx.font = `${l.fontSize}px "${l.fontFamily}"`;
+        const metrics = ctx.measureText(l.text);
+        const hitPadding = 20; // 터치 여유 공간
+        
+        if (x >= l.x - metrics.width/2 - hitPadding && x <= l.x + metrics.width/2 + hitPadding && 
+            y >= l.y - l.fontSize/2 - hitPadding && y <= l.y + l.fontSize/2 + hitPadding) {
+            
+            // 텍스트를 터치했을 때만 스크롤 방지 및 드래그 시작
+            e.preventDefault(); 
+            dragLayerIndex = i; 
+            isDragging = true; 
+            dragStart = { x: x - l.x, y: y - l.y };
+            renderLayersUI(); 
+            return;
+        }
+    }
+    // 텍스트가 아닌 곳을 터치하면 아무것도 하지 않음 (스크롤 가능)
+}, { passive: false });
+
+canvas.addEventListener('touchmove', e => {
+    if (!isDragging || dragLayerIndex === -1) return;
+    
+    // 드래그 중일 때는 스크롤 방지
+    e.preventDefault();
+    
+    const touch = e.touches[0];
+    const rect = canvas.getBoundingClientRect();
+    let x = (touch.clientX - rect.left) * (canvas.width / rect.width);
+    let y = (touch.clientY - rect.top) * (canvas.height / rect.height);
+    
+    if (activeGrid > 0) {
+        const stepX = 1280 / activeGrid; const stepY = 720 / activeGrid; const snapDist = 20;
+        if (Math.abs(x % stepX) < snapDist) x = Math.round(x / stepX) * stepX;
+        if (Math.abs(y % stepY) < snapDist) y = Math.round(y / stepY) * stepY;
+    }
+    layers[dragLayerIndex].x = x - dragStart.x; layers[dragLayerIndex].y = y - dragStart.y;
+    drawCanvas();
+}, { passive: false });
+
+canvas.addEventListener('touchend', () => { isDragging = false; dragLayerIndex = -1; });
 
 function drawCanvas() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
