@@ -178,6 +178,7 @@ canvas { max-width: 100%; max-height: 100%; object-fit: contain; }
     width: 50px; height: 50px; background: rgba(0,0,0,0.7); border-radius: 50%;
     display: flex; justify-content: center; align-items: center; border: 2px solid #fff; pointer-events: none;
 }
+.video-container:hover .play-button { background: #ff0000; border-color: #ff0000; transform: translate(-50%, -50%) scale(1.1); }
 .video-info { padding: 12px; }
 .video-title { font-size: 13px; font-weight: 600; line-height: 1.4; margin-bottom: 5px; color: #fff; }
 .video-date { font-size: 11px; color: #888; }
@@ -206,7 +207,7 @@ input[type="range"] { width: 100%; cursor: pointer; accent-color: #3ea6ff; margi
 .toggle-label { font-size: 13px; color: #ccc; display: flex; align-items: center; gap: 6px; }
 input[type="checkbox"] { width: 18px; height: 18px; accent-color: #3ea6ff; cursor: pointer; }
 
-/* 탭 스타일 (색상/외곽선) */
+/* 탭 스타일 (글자색/외곽선) */
 .tab-container { display: flex; margin-bottom: 10px; background: #222; border-radius: 6px; padding: 2px; border: 1px solid #444; }
 .tab-btn { flex: 1; padding: 8px; background: transparent; color: #888; border: none; cursor: pointer; border-radius: 4px; font-size: 12px; font-weight: 600; transition: 0.2s; }
 .tab-btn.active { background: #3ea6ff; color: #000; }
@@ -214,7 +215,7 @@ input[type="checkbox"] { width: 18px; height: 18px; accent-color: #3ea6ff; curso
 .tab-content.active { display: block; animation: fadeIn 0.2s; }
 @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-/* 팔레트 스타일 (간소화) */
+/* 팔레트 스타일 */
 .palette-wrapper { margin-bottom: 10px; background: #1a1a1a; padding: 10px; border-radius: 6px; border: 1px solid #333; }
 .color-grid-16 { display: grid; grid-template-columns: repeat(8, 1fr); gap: 4px; margin-bottom: 8px; }
 .color-grid-8 { display: grid; grid-template-columns: repeat(8, 1fr); gap: 4px; margin-bottom: 8px; }
@@ -229,6 +230,8 @@ input[type="checkbox"] { width: 18px; height: 18px; accent-color: #3ea6ff; curso
 .color-preview-big { width: 40px; height: 35px; border: 1px solid #fff; border-radius: 4px; }
 .btn-save-color { flex: 1; background: #333; border: 1px solid #555; color: #fff; padding: 0 10px; height: 35px; border-radius: 4px; font-size: 12px; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 5px; }
 .btn-save-color:hover { background: #444; }
+.color-input-wrapper { display: flex; align-items: center; gap: 5px; background: #181818; padding: 6px 10px; border-radius: 4px; border: 1px solid #444; margin-bottom: 8px; }
+input[type="color"] { width: 30px; height: 30px; border: none; background: none; cursor: pointer; padding: 0; flex-shrink: 0; }
 
 .text-layer { background: #333; padding: 15px; border-radius: 6px; margin-bottom: 10px; border-left: 4px solid #3ea6ff; position: relative; }
 .remove-btn { position: absolute; top: 8px; right: 8px; background: none; border: none; color: #ff5252; cursor: pointer; font-size: 14px; padding: 5px; }
@@ -245,6 +248,16 @@ input[type="checkbox"] { width: 18px; height: 18px; accent-color: #3ea6ff; curso
 .mini-input-group { display: flex; align-items: center; gap: 5px; }
 .scale-slider-container { margin-top: 10px; padding: 10px; background: #1a1a1a; border-radius: 4px; border: 1px solid #333; display: none; }
 .sub-option-box { background: #252525; padding: 10px; border-radius: 6px; margin-top: 5px; border-left: 2px solid #555; font-size: 12px; }
+
+/* 미리보기 모드 탭 스타일 */
+.preview-mode-tabs { display: flex; gap: 5px; margin-top: 8px; margin-bottom: 8px; }
+.preview-tab-btn { 
+    flex: 1; padding: 8px 4px; background: #333; border: 1px solid #444; 
+    color: #aaa; border-radius: 4px; cursor: pointer; font-size: 11px; 
+    transition: 0.2s;
+}
+.preview-tab-btn:hover { background: #444; color: #fff; }
+.preview-tab-btn.active { background: #3ea6ff; color: #000; border-color: #3ea6ff; font-weight: bold; }
 
 @media (max-width: 1400px) {
     .workspace { grid-template-columns: 340px 1fr; }
@@ -353,7 +366,7 @@ document.addEventListener('contextmenu', function(e) { e.preventDefault(); });
 
             <div class="section collapsed" id="section-bg">
                 <div class="section-header" onclick="toggleSection('section-bg')">
-                    <div class="section-title"><i class="fas fa-image"></i> <span data-lang="section_bg">배경</span></div>
+                    <div class="section-title"><i class="fas fa-image"></i> <span data-lang="section_bg">배경 & 미리보기</span></div>
                     <i class="fas fa-chevron-down section-toggle-icon"></i>
                 </div>
                 <div class="section-content">
@@ -389,6 +402,18 @@ document.addEventListener('contextmenu', function(e) { e.preventDefault(); });
 
                     <div style="margin-top: 15px; border-top: 1px solid #444; padding-top: 10px;">
                         <div class="toggle-row"><span class="toggle-label"><i class="fas fa-eye"></i> <span data-lang="label_safezone">시간 표시 (Safe Zone)</span></span><input type="checkbox" id="checkSafeZone" onchange="drawCanvas()" checked=""></div>
+                        
+                        <!-- 미리보기 모드 탭 (3가지 사이즈) -->
+                        <div class="sub-option-box" id="previewModeContainer" style="margin-bottom:10px;">
+                            <label style="color:#3ea6ff;">📺 미리보기 뷰 (시간 표시 비율)</label>
+                            <div class="preview-mode-tabs">
+                                <button class="preview-tab-btn" onclick="setPreviewMode('main', this)">메인화면(대)</button>
+                                <button class="preview-tab-btn active" onclick="setPreviewMode('rec', this)">추천영상(중)</button>
+                                <button class="preview-tab-btn" onclick="setPreviewMode('mobile', this)">모바일/인기(소)</button>
+                            </div>
+                            <p style="font-size:10px; color:#888; margin:0;">* 실제 유튜브 화면 비율에 맞춰 시간표시 크기가 변합니다.</p>
+                        </div>
+
                         <div class="toggle-row" style="margin-left: 10px;"><span class="toggle-label"><i class="fas fa-music"></i> <span data-lang="label_music">음표 아이콘 (뮤직비디오)</span></span><input type="checkbox" id="checkMusicIcon" onchange="drawCanvas()"></div>
                         <div class="toggle-row" style="margin-top: 10px;"><span class="toggle-label"><i class="fas fa-th"></i> <span data-lang="label_grid12">12분할 그리드 (자석)</span></span><input type="checkbox" id="checkGrid12" onchange="toggleGrid(12)"></div>
                         <div class="toggle-row"><span class="toggle-label"><i class="fas fa-th"></i> <span data-lang="label_grid6">6분할 그리드 (자석)</span></span><input type="checkbox" id="checkGrid6" onchange="toggleGrid(6)"></div>
@@ -479,30 +504,42 @@ document.addEventListener('contextmenu', function(e) { e.preventDefault(); });
         </div>
 
         <div class="right-sidebar">
-             <div class="youtube-card">
-                <div class="yt-header"><i class="fab fa-youtube"></i> <span>Popular References</span></div>
-                <div class="video-container">
-                    <div style="width:100%; height:100%; background: #333; display:flex; align-items:center; justify-content:center; color:#555;">
-                        <i class="fas fa-image" style="font-size:40px;"></i>
-                    </div>
+            <!-- NEW VIDEO -->
+            <div class="youtube-card" id="ytCard">
+                <div class="yt-header"><i class="fab fa-youtube"></i> NEW VIDEO</div>
+                <div class="video-container" id="videoContainer" onclick="playInlineVideo(this, 'TdTZ3wiJsWQ')">
+                    <img src="https://img.youtube.com/vi/TdTZ3wiJsWQ/maxresdefault.jpg" alt="Thumbnail" onerror="this.src='https://img.youtube.com/vi/TdTZ3wiJsWQ/hqdefault.jpg'">
                     <div class="play-button"><i class="fas fa-play"></i></div>
                 </div>
                 <div class="video-info">
-                    <div class="video-title">이런 스타일의 썸네일은 어떠신가요? (예시)</div>
-                    <div class="video-date">조회수 100만회 • 2일 전</div>
+                    <div class="video-title" id="videoTitle">[Official Theme] 단군 (DANGUN) : 🗡️ Epic Cinematic Music | 시네마틱 판타지 OST</div>
+                    <div class="video-date" id="videoDate">2025-12-06</div>
                 </div>
             </div>
-             <div class="youtube-card">
-                <div class="yt-header"><i class="fab fa-youtube"></i> <span>Trending</span></div>
-                <div class="video-container">
-                    <div style="width:100%; height:100%; background: #333; display:flex; align-items:center; justify-content:center; color:#555;">
-                         <i class="fas fa-bolt" style="font-size:40px;"></i>
-                    </div>
+
+            <!-- K-POP List -->
+            <div class="youtube-card">
+                <div class="yt-header"><i class="fas fa-list-ul"></i> K-POP List</div>
+                <div class="video-container" onclick="playInlineVideo(this, 'BHiVDQ3fzYo')">
+                    <img src="https://img.youtube.com/vi/BHiVDQ3fzYo/hqdefault.jpg" alt="K-POP Thumbnail">
                     <div class="play-button"><i class="fas fa-play"></i></div>
                 </div>
                 <div class="video-info">
-                    <div class="video-title">강조 효과를 주는 텍스트 배치 팁</div>
-                    <div class="video-date">조회수 50만회 • 1주 전</div>
+                    <div class="video-title">🎵 K-POP 인기곡 모음</div>
+                    <div class="video-date">클릭하여 재생</div>
+                </div>
+            </div>
+
+            <!-- J-POP List -->
+            <div class="youtube-card">
+                <div class="yt-header"><i class="fas fa-list-ul"></i> J-POP List</div>
+                <div class="video-container" onclick="playInlineVideo(this, 'KMqhMIZ-NbE')">
+                    <img src="https://img.youtube.com/vi/KMqhMIZ-NbE/hqdefault.jpg" alt="J-POP Thumbnail">
+                    <div class="play-button"><i class="fas fa-play"></i></div>
+                </div>
+                <div class="video-info">
+                    <div class="video-title">🎵 J-POP 인기곡 모음</div>
+                    <div class="video-date">클릭하여 재생</div>
                 </div>
             </div>
         </div>
@@ -523,34 +560,33 @@ let activeGrid = 0;
 let customPalette = new Array(8).fill(null);
 const smartColors = ['#FFFFFF', '#000000', '#FF0000', '#FFFF00', '#00FF00', '#00FFFF', '#0000FF', '#FF00FF', '#FFA500', '#800080', '#FFC0CB', '#A52A2A', '#808080', '#D3D3D3', '#FFD700', '#40E0D0'];
 let customFonts = []; 
+let previewMode = 'rec'; // 'main', 'rec', 'mobile'
 
 // 한글 폰트 변환 매핑
 const kFontMap = { 'Nanum':'나눔', 'Barun':'바른', 'Pen':'펜', 'Gothic':'고딕', 'Myeongjo':'명조', 'Yeongam':'영암', 'Wolchulsan':'월출산', 'Miwon':'미원', 'Jua':'주아', 'DoHyeon':'도현', 'Black':'블랙', 'Han':'한', 'Sans':'산스', 'Cookie':'쿠키', 'Run':'런', 'Jalnan':'잘난', 'Gmarket':'지마켓', 'Sangsang':'상상', 'Rabbit':'토끼', 'Mapo':'마포', 'Flower':'꽃', 'Road':'길', 'Human':'휴먼', 'Batang':'바탕', 'Dotum':'돋움', 'Gungsuh':'궁서', 'Pilgi':'필기', 'Saemul':'샘물', 'Headline':'헤드라인', 'D2Coding':'D2코딩', 'DungGeun':'둥근', 'Mo':'모' };
 
-// 폰트명 변환 로직 (미원Miwon -> 미원체, 나눔바른펜B -> 나눔바른펜B체)
 function translateFontName(filename) {
     let name = filename.replace(/\.(otf|OTF|ttf|TTF)$/, '');
-    name = name.replace(/[-_]/g, ' ');
-    let translated = name;
-    // 매핑 적용
-    Object.keys(kFontMap).forEach(key => {
-        const regex = new RegExp(key, 'gi');
-        translated = translated.replace(regex, kFontMap[key]);
-    });
-    // 공백 제거
-    translated = translated.replace(/\s+/g, '');
     
-    // 한글이 포함된 경우, 뒤따르는 2글자 이상의 영어는 제거 (예: 미원Miwon -> 미원)
-    // 단, B, R, L 같은 1글자 접미사는 유지 (나눔바른펜B)
-    if (/[가-힣]/.test(translated)) {
-        translated = translated.replace(/([가-힣]+)[a-zA-Z]{2,}/g, '$1');
+    // 1. 한글이 포함된 경우, 영어 부분(2글자 이상) 제거 (예: 미원Miwon -> 미원)
+    if (/[가-힣]/.test(name)) {
+        name = name.replace(/[a-zA-Z]{2,}/g, '');
+        name = name.replace(/[-_\s]+/g, '');
+    } else {
+        // 2. 한글이 없으면 매핑 적용
+        name = name.replace(/[-_]/g, ' ');
+        Object.keys(kFontMap).forEach(key => {
+            const regex = new RegExp(key, 'gi');
+            name = name.replace(regex, kFontMap[key]);
+        });
+        name = name.replace(/\s+/g, '');
     }
     
-    // 마지막에 '체' 붙이기 (이미 있으면 생략)
-    if (!translated.endsWith('체')) {
-        translated += '체';
+    // 3. 마지막에 '체' 붙이기
+    if (!name.endsWith('체')) {
+        name += '체';
     }
-    return translated;
+    return name;
 }
 
 // 폰트 로드
@@ -617,6 +653,14 @@ function initLayers() {
 function setLayerTab(idx, tabName) {
     layers[idx].activeTab = tabName;
     renderLayersUI();
+}
+
+// 미리보기 모드 설정
+function setPreviewMode(mode, btn) {
+    previewMode = mode;
+    document.querySelectorAll('.preview-tab-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    drawCanvas();
 }
 
 // 팔레트 HTML 생성 (탭 내부용)
@@ -699,9 +743,9 @@ function renderLayersUI() {
                 <button class="style-btn ${layer.isUnderline ? 'active' : ''}" onclick="toggleStyle(${idx}, 'isUnderline')">U</button>
             </div>
             
-            <!-- 탭 메뉴 -->
+            <!-- 탭 메뉴 (색상 -> 글자색 변경) -->
             <div class="tab-container">
-                <button class="tab-btn ${isTextTab ? 'active' : ''}" onclick="setLayerTab(${idx}, 'text')"><i class="fas fa-palette"></i> 색상</button>
+                <button class="tab-btn ${isTextTab ? 'active' : ''}" onclick="setLayerTab(${idx}, 'text')"><i class="fas fa-palette"></i> 글자색</button>
                 <button class="tab-btn ${!isTextTab ? 'active' : ''}" onclick="setLayerTab(${idx}, 'outline')"><i class="fas fa-pen"></i> 외곽선</button>
             </div>
             
@@ -964,13 +1008,92 @@ function drawOverlays() {
         ctx.beginPath(); ctx.roundRect(borderW/2, borderW/2, 1280 - borderW, 720 - borderW, borderR); ctx.stroke();
     }
     if (document.getElementById('checkSafeZone').checked) {
-        ctx.fillStyle = 'rgba(0, 0, 0, 0.8)'; ctx.fillRect(1280 - 180, 720 - 50, 160, 40);
-        ctx.fillStyle = 'white'; ctx.font = 'bold 24px sans-serif'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.fillText('00:00', 1280 - 100, 720 - 30);
+        // 미리보기 모드에 따른 비율 조정 (1280x720 캔버스 기준)
+        let timeScale = 1;
+        if (previewMode === 'main') timeScale = 0.7; // 대형화면: 상대적으로 시간이 작아보임
+        else if (previewMode === 'mobile') timeScale = 1.6; // 소형화면: 상대적으로 시간이 커보임 (약 2.3배 차이)
+
+        // 바이탈펑크 썸네일 스타일 정밀 조정
+        const timeText = "4:14";
+        const marginX = 15 * timeScale;
+        const marginY = 15 * timeScale;
+        const fontSize = 20 * timeScale;
+        const iconSize = 18 * timeScale;
+        const paddingX = 8 * timeScale; // 박스 좌우 패딩
+        
+        ctx.save();
+        
+        // 텍스트 너비 계산 (폰트 설정 후)
+        ctx.font = `bold ${fontSize}px sans-serif`;
+        const textMetrics = ctx.measureText(timeText);
+        const textWidth = textMetrics.width;
+        
+        // 아이콘 너비 및 간격 계산
+        const hasMusicIcon = document.getElementById('checkMusicIcon').checked;
+        let iconWidth = 0;
+        let iconGap = 0;
+        
+        if (hasMusicIcon) {
+            ctx.font = `${iconSize}px FontAwesome`;
+            const iconMetrics = ctx.measureText('\uf001');
+            iconWidth = iconMetrics.width;
+            iconGap = 10 * timeScale; // 음표와 시간 사이 간격 (한칸 띄움 효과)
+        }
+        
+        // 박스 전체 크기 계산
+        const boxHeight = 36 * timeScale;
+        const contentWidth = textWidth + iconWidth + iconGap;
+        const boxWidth = contentWidth + (paddingX * 2);
+        
+        // 박스 위치 계산 (우측 하단)
+        const boxX = 1280 - boxWidth - marginX;
+        const boxY = 720 - boxHeight - marginY;
+        
+        // 1. 노란색 점선 가이드라인
+        ctx.strokeStyle = '#FFD700';
+        ctx.lineWidth = 3;
+        ctx.setLineDash([8, 6]);
+        ctx.beginPath();
+        // 시간 표시보다 약간 더 큰 영역을 가이드로 표시
+        ctx.roundRect(boxX - 5, boxY - 5, boxWidth + 10, boxHeight + 10, 8 * timeScale);
+        ctx.stroke();
+        
+        // 2. 시간 표시 배경
+        ctx.fillStyle = 'rgba(0, 0, 0, 0.8)';
+        ctx.beginPath();
+        ctx.roundRect(boxX, boxY, boxWidth, boxHeight, 6 * timeScale);
+        ctx.fill();
+
+        // 텍스트/아이콘 베이스라인 (수직 중앙)
+        const contentCenterY = boxY + (boxHeight / 2);
+        ctx.textBaseline = 'middle';
+        
+        let cursorX = boxX + paddingX;
+
+        // 3. 음표 아이콘 그리기 (왼쪽 정렬)
+        if (hasMusicIcon) {
+             ctx.fillStyle = 'white';
+             ctx.font = `${iconSize}px FontAwesome`;
+             ctx.textAlign = 'left';
+             ctx.fillText('\uf001', cursorX, contentCenterY + (1 * timeScale)); // 약간의 수직 보정
+             cursorX += iconWidth + iconGap;
+        }
+
+        // 4. 시간 텍스트 그리기
+        ctx.fillStyle = 'white';
+        ctx.font = `bold ${fontSize}px sans-serif`;
+        ctx.textAlign = 'left';
+        ctx.fillText(timeText, cursorX, contentCenterY);
+        
+        ctx.restore();
     }
-    if (document.getElementById('checkMusicIcon').checked) {
+    
+    // 일반 아이콘 단독 체크 (SafeZone 미사용 시)
+    if (document.getElementById('checkMusicIcon').checked && !document.getElementById('checkSafeZone').checked) {
         ctx.fillStyle = '#ff0000'; ctx.beginPath(); ctx.arc(60, 60, 30, 0, Math.PI * 2); ctx.fill();
         ctx.fillStyle = 'white'; ctx.font = '30px FontAwesome'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.fillText('\uf001', 60, 60);
     }
+    
     if (activeGrid > 0) {
         ctx.strokeStyle = 'rgba(0, 255, 255, 0.5)'; ctx.lineWidth = 1; ctx.beginPath();
         const stepX = 1280 / activeGrid; const stepY = 720 / activeGrid;
@@ -982,6 +1105,10 @@ function toggleSection(id) { document.getElementById(id).classList.toggle('colla
 function jumpToSection(id, btn) {
     document.getElementById(id).classList.remove('collapsed'); document.getElementById(id).scrollIntoView({ behavior: 'smooth', block: 'center' });
     document.querySelectorAll('.quick-btn').forEach(b => b.classList.remove('active')); btn.classList.add('active');
+}
+// 리스트 영상 인라인 재생 함수 추가
+function playInlineVideo(container, videoId) {
+    container.innerHTML = `<iframe src="https://www.youtube.com/embed/${videoId}?autoplay=1&playsinline=1" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="position:absolute; top:0; left:0; width:100%; height:100%; border:none;"></iframe>`;
 }
 initLayers();
 </script>
