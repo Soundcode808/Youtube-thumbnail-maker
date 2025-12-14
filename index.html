@@ -207,7 +207,7 @@ input[type="range"] { width: 100%; cursor: pointer; accent-color: #3ea6ff; margi
 .toggle-label { font-size: 13px; color: #ccc; display: flex; align-items: center; gap: 6px; }
 input[type="checkbox"] { width: 18px; height: 18px; accent-color: #3ea6ff; cursor: pointer; }
 
-/* 탭 스타일 (글자색/외곽선) */
+/* 탭 스타일 */
 .tab-container { display: flex; margin-bottom: 10px; background: #222; border-radius: 6px; padding: 2px; border: 1px solid #444; }
 .tab-btn { flex: 1; padding: 8px; background: transparent; color: #888; border: none; cursor: pointer; border-radius: 4px; font-size: 12px; font-weight: 600; transition: 0.2s; }
 .tab-btn.active { background: #3ea6ff; color: #000; }
@@ -219,13 +219,9 @@ input[type="checkbox"] { width: 18px; height: 18px; accent-color: #3ea6ff; curso
 .palette-wrapper { margin-bottom: 10px; background: #1a1a1a; padding: 10px; border-radius: 6px; border: 1px solid #333; }
 .color-grid-16 { display: grid; grid-template-columns: repeat(8, 1fr); gap: 4px; margin-bottom: 8px; }
 .color-grid-8 { display: grid; grid-template-columns: repeat(8, 1fr); gap: 4px; margin-bottom: 8px; }
-.color-cell { 
-    aspect-ratio: 1; border-radius: 3px; cursor: pointer; border: 1px solid #444; position: relative;
-    transition: transform 0.1s, border-color 0.1s;
-}
+.color-cell { aspect-ratio: 1; border-radius: 3px; cursor: pointer; border: 1px solid #444; transition: transform 0.1s, border-color 0.1s; }
 .color-cell:hover { transform: scale(1.15); border-color: #fff; z-index: 2; }
 .color-cell.empty { background-image: linear-gradient(45deg, #222 25%, transparent 25%), linear-gradient(-45deg, #222 25%, transparent 25%), linear-gradient(45deg, transparent 75%, #222 75%), linear-gradient(-45deg, transparent 75%, #222 75%); background-size: 8px 8px; background-color: #333; }
-
 .palette-actions { display: flex; align-items: center; gap: 10px; margin-top: 5px; }
 .color-preview-big { width: 40px; height: 35px; border: 1px solid #fff; border-radius: 4px; }
 .btn-save-color { flex: 1; background: #333; border: 1px solid #555; color: #fff; padding: 0 10px; height: 35px; border-radius: 4px; font-size: 12px; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 5px; }
@@ -235,7 +231,6 @@ input[type="color"] { width: 30px; height: 30px; border: none; background: none;
 
 .text-layer { background: #333; padding: 15px; border-radius: 6px; margin-bottom: 10px; border-left: 4px solid #3ea6ff; position: relative; }
 .remove-btn { position: absolute; top: 8px; right: 8px; background: none; border: none; color: #ff5252; cursor: pointer; font-size: 14px; padding: 5px; }
-
 .style-group { display: flex; gap: 5px; margin-bottom: 8px; }
 .style-btn { flex: 1; background: #444; border: 1px solid #555; color: #aaa; padding: 10px; border-radius: 4px; cursor: pointer; font-size: 14px; font-family: serif; }
 .style-btn.active { background: #3ea6ff; color: #000; border-color: #3ea6ff; font-weight: bold; }
@@ -251,11 +246,7 @@ input[type="color"] { width: 30px; height: 30px; border: none; background: none;
 
 /* 미리보기 모드 탭 스타일 */
 .preview-mode-tabs { display: flex; gap: 5px; margin-top: 8px; margin-bottom: 8px; }
-.preview-tab-btn { 
-    flex: 1; padding: 8px 4px; background: #333; border: 1px solid #444; 
-    color: #aaa; border-radius: 4px; cursor: pointer; font-size: 11px; 
-    transition: 0.2s;
-}
+.preview-tab-btn { flex: 1; padding: 8px 4px; background: #333; border: 1px solid #444; color: #aaa; border-radius: 4px; cursor: pointer; font-size: 11px; transition: 0.2s; }
 .preview-tab-btn:hover { background: #444; color: #fff; }
 .preview-tab-btn.active { background: #3ea6ff; color: #000; border-color: #3ea6ff; font-weight: bold; }
 
@@ -269,15 +260,10 @@ input[type="color"] { width: 30px; height: 30px; border: none; background: none;
     .container { display: flex; flex-direction: column; height: auto; }
     .workspace { display: flex; flex-direction: column; height: auto; overflow: visible; }
     .control-panel { height: auto; padding-right: 0; }
-    
     .center-panel-wrapper { 
-        order: 1; margin-bottom: 10px;
-        position: sticky; top: 0; z-index: 1000;
-        background: #1e1e1e;
-        box-shadow: 0 5px 15px rgba(0,0,0,0.5);
-        border-bottom: 1px solid #333;
-        padding-bottom: 10px;
-        border-radius: 0 0 12px 12px;
+        order: 1; margin-bottom: 10px; position: sticky; top: 0; z-index: 1000;
+        background: #1e1e1e; box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+        border-bottom: 1px solid #333; padding-bottom: 10px; border-radius: 0 0 12px 12px;
         margin-left: -20px; margin-right: -20px; padding-left: 20px; padding-right: 20px;
     }
     .canvas-scroll-area { overflow: visible; height: auto; padding: 0; }
@@ -403,7 +389,6 @@ document.addEventListener('contextmenu', function(e) { e.preventDefault(); });
                     <div style="margin-top: 15px; border-top: 1px solid #444; padding-top: 10px;">
                         <div class="toggle-row"><span class="toggle-label"><i class="fas fa-eye"></i> <span data-lang="label_safezone">시간 표시 (Safe Zone)</span></span><input type="checkbox" id="checkSafeZone" onchange="drawCanvas()" checked=""></div>
                         
-                        <!-- 미리보기 모드 탭 (3가지 사이즈) -->
                         <div class="sub-option-box" id="previewModeContainer" style="margin-bottom:10px;">
                             <label style="color:#3ea6ff;">📺 미리보기 뷰 (시간 표시 비율)</label>
                             <div class="preview-mode-tabs">
@@ -437,7 +422,6 @@ document.addEventListener('contextmenu', function(e) { e.preventDefault(); });
                     </div>
                     <label style="margin-top:5px;" data-lang="label_border_color">테두리 색상</label>
                     <div class="palette-wrapper">
-                         <!-- Border Palette (Simple) -->
                          <div class="color-grid-16" id="borderPalette16"></div>
                          <div class="color-grid-8" id="borderPaletteCustom"></div>
                          <div class="palette-actions">
@@ -504,7 +488,6 @@ document.addEventListener('contextmenu', function(e) { e.preventDefault(); });
         </div>
 
         <div class="right-sidebar">
-            <!-- NEW VIDEO -->
             <div class="youtube-card" id="ytCard">
                 <div class="yt-header"><i class="fab fa-youtube"></i> NEW VIDEO</div>
                 <div class="video-container" id="videoContainer" onclick="playInlineVideo(this, 'TdTZ3wiJsWQ')">
@@ -516,8 +499,6 @@ document.addEventListener('contextmenu', function(e) { e.preventDefault(); });
                     <div class="video-date" id="videoDate">2025-12-06</div>
                 </div>
             </div>
-
-            <!-- K-POP List -->
             <div class="youtube-card">
                 <div class="yt-header"><i class="fas fa-list-ul"></i> K-POP List</div>
                 <div class="video-container" onclick="playInlineVideo(this, 'BHiVDQ3fzYo')">
@@ -529,8 +510,6 @@ document.addEventListener('contextmenu', function(e) { e.preventDefault(); });
                     <div class="video-date">클릭하여 재생</div>
                 </div>
             </div>
-
-            <!-- J-POP List -->
             <div class="youtube-card">
                 <div class="yt-header"><i class="fas fa-list-ul"></i> J-POP List</div>
                 <div class="video-container" onclick="playInlineVideo(this, 'KMqhMIZ-NbE')">
@@ -547,6 +526,56 @@ document.addEventListener('contextmenu', function(e) { e.preventDefault(); });
 </div>
 
 <script>
+// --- 언어 데이터 복구 ---
+const translations = {
+    ko: {title: "딸깍 유튜브 썸네일 메이커 V33", subtitle: "[ 무단 수정, 복제, 재배포 금지 ]",
+        section_bg: "배경 & 미리보기", btn_load_img: "이미지 불러오기", label_lock: "이미지 잠금 (Lock)", label_size: "크기 조절 (Width / Height)", label_ratio: "비율 고정 (Aspect Ratio)", label_zoom: "🚀 전체 크기 조절 (Zoom)", label_pos: "위치 이동 (X / Y)", btn_reset: "이미지 크기/위치 초기화", label_safezone: "시간 표시 (Safe Zone)", label_music: "음표 아이콘 (뮤직비디오)", label_grid12: "12분할 그리드 (자석)", label_grid6: "6분할 그리드 (자석)",
+        section_layout: "배치 (12종)", preset_center: "중앙 초대형", preset_hook: "좌측 훅(Hook)", preset_split: "좌우 분할", preset_bottom: "하단 자막형", preset_badge: "좌상단 뱃지", preset_diagonal: "대각선 배치",
+        section_effect: "효과", label_shadow: "🎬 시네마틱 그림자 (하단)", label_border: "🖼️ 썸네일 테두리", label_thickness: "두께", label_radius: "라운딩", label_border_color: "테두리 색상",
+        section_text: "텍스트", label_font_upload: "FONT 폴더 불러오기 ( TTF / OTF )", btn_font_select: "폰트 폴더 선택 (ttf/otf)", btn_add: "추가", desc_iphone: "* 아이폰은 '파일' 앱에 저장된 폰트를 선택해주세요.", btn_add_text: "텍스트 추가하기",
+        menu_bg: "배경", menu_layout: "배치", menu_effect: "효과", menu_text: "텍스트",
+        tip_drag: "Tip: 드래그 시 그리드에 자석처럼 붙습니다.", btn_save: "썸네일 저장하기 (자동 최적화)", donation_title: "[개발자에게 커피 쏘기]",
+        label_content: "내용", label_font: "글꼴", label_layer_size: "크기", label_style: "스타일", label_text_color: "텍스트 색상", btn_save_color: "색 저장", label_stroke: "글자 외곽선", label_layer_thickness: "두께", label_stroke_color: "색상", label_bgbox: "배경 박스", label_bgcolor: "배경 색상", label_padding: "여백", label_bg_radius: "둥글기", label_bg_border: "배경 테두리", label_bg_border_color: "테두리 색상", label_pos_layer: "위치 미세조정"
+    },
+    en: {title: "Click Youtube Thumbnail Maker V33", subtitle: "[ No Unauthorized Mod/Copy/Distribute ]",
+        section_bg: "BG & Preview", btn_load_img: "Load Image", label_lock: "Lock Image", label_size: "Resize (W / H)", label_ratio: "Aspect Ratio", label_zoom: "🚀 Zoom", label_pos: "Position (X / Y)", btn_reset: "Reset Image", label_safezone: "Safe Zone", label_music: "Music Icon", label_grid12: "Grid 12x12 (Snap)", label_grid6: "Grid 6x6 (Snap)",
+        section_layout: "Layouts (12)", preset_center: "Center Big", preset_hook: "Left Hook", preset_split: "Split Contrast", preset_bottom: "Bottom Story", preset_badge: "Corner Badge", preset_diagonal: "Diagonal",
+        section_effect: "Effects", label_shadow: "🎬 Cinematic Shadow", label_border: "🖼️ Border", label_thickness: "Width", label_radius: "Radius", label_border_color: "Border Color",
+        section_text: "Text", label_font_upload: "Upload FONT Folder (TTF/OTF)", btn_font_select: "Select Font Folder", btn_add: "Add", desc_iphone: "* iPhone: Select from 'Files' app.", btn_add_text: "Add Text",
+        menu_bg: "BG", menu_layout: "Layout", menu_effect: "Effect", menu_text: "Text",
+        tip_drag: "Tip: Draggable items snap to grid.", btn_save: "Save Thumbnail", donation_title: "[Buy me a coffee]",
+        label_content: "Content", label_font: "Font", label_layer_size: "Size", label_style: "Style", label_text_color: "Text Color", btn_save_color: "Save Color", label_stroke: "Stroke", label_layer_thickness: "Width", label_stroke_color: "Color", label_bgbox: "Background Box", label_bgcolor: "BG Color", label_padding: "Padding", label_bg_radius: "Radius", label_bg_border: "Box Border", label_bg_border_color: "Border Color", label_pos_layer: "Position"
+    },
+    ja: {title: "クリック！YouTubeサムネメーカー V33", subtitle: "[ 無断修正・複製・再配布禁止 ]",
+        section_bg: "背景＆プレビュー", btn_load_img: "画像を読み込む", label_lock: "画像をロック", label_size: "サイズ調整 (W / H)", label_ratio: "比率を固定", label_zoom: "🚀 ズーム", label_pos: "位置移動 (X / Y)", btn_reset: "画像リセット", label_safezone: "セーフゾーン", label_music: "音符アイコン", label_grid12: "12分割グリッド", label_grid6: "6分割グリッド",
+        section_layout: "配置 (12種)", preset_center: "中央特大", preset_hook: "左フック", preset_split: "左右分割", preset_bottom: "下部字幕", preset_badge: "左上バッジ", preset_diagonal: "対角線配置",
+        section_effect: "効果", label_shadow: "🎬 映画風シャドウ", label_border: "🖼️ 枠線", label_thickness: "太さ", label_radius: "角丸", label_border_color: "枠線の色",
+        section_text: "テキスト", label_font_upload: "フォントフォルダ読込 (TTF/OTF)", btn_font_select: "フォントフォルダ選択", btn_add: "追加", desc_iphone: "* iPhoneは「ファイル」アプリから選択。", btn_add_text: "テキスト追加",
+        menu_bg: "背景", menu_layout: "配置", menu_effect: "効果", menu_text: "文字",
+        tip_drag: "Tip: ドラッグでグリッドに吸着。", btn_save: "保存 (最適化)", donation_title: "[開発者にコーヒーを]",
+        label_content: "内容", label_font: "フォント", label_layer_size: "サイズ", label_style: "スタイル", label_text_color: "文字色", btn_save_color: "色保存", label_stroke: "縁取り", label_layer_thickness: "太さ", label_stroke_color: "色", label_bgbox: "背景ボックス", label_bgcolor: "背景色", label_padding: "余白", label_bg_radius: "角丸", label_bg_border: "枠線", label_bg_border_color: "枠色", label_pos_layer: "位置"
+    },
+    zh: {title: "点击 YouTube 缩略图制作工具 V33", subtitle: "[ 禁止擅自修改、复制、再分发 ]",
+        section_bg: "背景与预览", btn_load_img: "加载图片", label_lock: "锁定图片", label_size: "调整大小 (W / H)", label_ratio: "锁定比例", label_zoom: "🚀 缩放", label_pos: "移动位置 (X / Y)", btn_reset: "重置图片", label_safezone: "安全区", label_music: "音符图标", label_grid12: "12分网格", label_grid6: "6分网格",
+        section_layout: "布局 (12种)", preset_center: "中央超大", preset_hook: "左侧钩子", preset_split: "左右分割", preset_bottom: "底部字幕", preset_badge: "左上角徽章", preset_diagonal: "对角线布局",
+        section_effect: "效果", label_shadow: "🎬 电影感阴影", label_border: "🖼️ 边框", label_thickness: "宽度", label_radius: "圆角", label_border_color: "边框颜色",
+        section_text: "文本", label_font_upload: "加载字体文件夹 (TTF/OTF)", btn_font_select: "选择字体文件夹", btn_add: "添加", desc_iphone: "* iPhone 请从“文件”App选择。", btn_add_text: "添加文本",
+        menu_bg: "背景", menu_layout: "布局", menu_effect: "效果", menu_text: "文本",
+        tip_drag: "提示: 拖动时吸附网格。", btn_save: "保存缩略图", donation_title: "[请开发者喝咖啡]",
+        label_content: "内容", label_font: "字体", label_layer_size: "大小", label_style: "样式", label_text_color: "文本颜色", btn_save_color: "保存颜色", label_stroke: "描边", label_layer_thickness: "宽度", label_stroke_color: "颜色", label_bgbox: "背景框", label_bgcolor: "背景颜色", label_padding: "内边距", label_bg_radius: "圆角", label_bg_border: "框边框", label_bg_border_color: "边框颜色", label_pos_layer: "位置"
+    }
+};
+let currentLang = 'ko';
+
+function changeLanguage(lang) {
+    currentLang = lang;
+    document.querySelectorAll('[data-lang]').forEach(el => {
+        const key = el.getAttribute('data-lang');
+        if(translations[lang][key]) el.innerHTML = translations[lang][key];
+    });
+    renderLayersUI(); 
+}
+
 // --- 기본 변수 ---
 const canvas = document.getElementById('mainCanvas');
 const ctx = canvas.getContext('2d');
@@ -560,20 +589,17 @@ let activeGrid = 0;
 let customPalette = new Array(8).fill(null);
 const smartColors = ['#FFFFFF', '#000000', '#FF0000', '#FFFF00', '#00FF00', '#00FFFF', '#0000FF', '#FF00FF', '#FFA500', '#800080', '#FFC0CB', '#A52A2A', '#808080', '#D3D3D3', '#FFD700', '#40E0D0'];
 let customFonts = []; 
-let previewMode = 'rec'; // 'main', 'rec', 'mobile'
+let previewMode = 'rec';
 
 // 한글 폰트 변환 매핑
 const kFontMap = { 'Nanum':'나눔', 'Barun':'바른', 'Pen':'펜', 'Gothic':'고딕', 'Myeongjo':'명조', 'Yeongam':'영암', 'Wolchulsan':'월출산', 'Miwon':'미원', 'Jua':'주아', 'DoHyeon':'도현', 'Black':'블랙', 'Han':'한', 'Sans':'산스', 'Cookie':'쿠키', 'Run':'런', 'Jalnan':'잘난', 'Gmarket':'지마켓', 'Sangsang':'상상', 'Rabbit':'토끼', 'Mapo':'마포', 'Flower':'꽃', 'Road':'길', 'Human':'휴먼', 'Batang':'바탕', 'Dotum':'돋움', 'Gungsuh':'궁서', 'Pilgi':'필기', 'Saemul':'샘물', 'Headline':'헤드라인', 'D2Coding':'D2코딩', 'DungGeun':'둥근', 'Mo':'모' };
 
 function translateFontName(filename) {
     let name = filename.replace(/\.(otf|OTF|ttf|TTF)$/, '');
-    
-    // 1. 한글이 포함된 경우, 영어 부분(2글자 이상) 제거 (예: 미원Miwon -> 미원)
     if (/[가-힣]/.test(name)) {
         name = name.replace(/[a-zA-Z]{2,}/g, '');
         name = name.replace(/[-_\s]+/g, '');
     } else {
-        // 2. 한글이 없으면 매핑 적용
         name = name.replace(/[-_]/g, ' ');
         Object.keys(kFontMap).forEach(key => {
             const regex = new RegExp(key, 'gi');
@@ -581,11 +607,7 @@ function translateFontName(filename) {
         });
         name = name.replace(/\s+/g, '');
     }
-    
-    // 3. 마지막에 '체' 붙이기
-    if (!name.endsWith('체')) {
-        name += '체';
-    }
+    if (!name.endsWith('체')) name += '체';
     return name;
 }
 
@@ -603,7 +625,6 @@ function handleFontUpload(input) {
         });
         Object.keys(fontGroups).forEach(baseName => {
             const group = fontGroups[baseName];
-            // OTF 우선
             const targetFile = group.otf || group.ttf;
             if (targetFile) loadSingleFont(targetFile);
         });
@@ -643,7 +664,7 @@ function initLayers() {
         id: Date.now(), text: '썸네일 제목', x: 640, y: 360, fontSize: 100, fontFamily: 'Impact',
         color: '#FFFFFF', useStroke: true, strokeColor: '#000000', strokeWidth: 15,
         isBold: false, isItalic: false, isUnderline: false, useBg: false, bgColor: '#000000',
-        activeTab: 'text' // 탭 상태 저장 (text | outline)
+        activeTab: 'text'
     }];
     renderLayersUI();
     renderBorderPalette();
@@ -655,7 +676,6 @@ function setLayerTab(idx, tabName) {
     renderLayersUI();
 }
 
-// 미리보기 모드 설정
 function setPreviewMode(mode, btn) {
     previewMode = mode;
     document.querySelectorAll('.preview-tab-btn').forEach(b => b.classList.remove('active'));
@@ -663,7 +683,6 @@ function setPreviewMode(mode, btn) {
     drawCanvas();
 }
 
-// 팔레트 HTML 생성 (탭 내부용)
 function generateTabPaletteHTML(idx, type) {
     const isText = type === 'text';
     const currentVal = isText ? layers[idx].color : layers[idx].strokeColor;
@@ -672,15 +691,12 @@ function generateTabPaletteHTML(idx, type) {
         : `updateLayer(${idx}, 'strokeColor', {value: 'COLOR'})`;
     
     let html = '<div class="palette-wrapper">';
-    
-    // 16색 그리드
     html += '<div class="color-grid-16">';
     smartColors.forEach(c => {
         html += `<div class="color-cell" style="background:${c}" onclick="${clickAction.replace('COLOR', c)}"></div>`;
     });
     html += '</div>';
     
-    // 8색 커스텀 그리드
     html += '<div class="color-grid-8">';
     customPalette.forEach(c => {
         if(c) html += `<div class="color-cell" style="background:${c}" onclick="${clickAction.replace('COLOR', c)}"></div>`;
@@ -688,24 +704,20 @@ function generateTabPaletteHTML(idx, type) {
     });
     html += '</div>';
     
-    // 미리보기 및 저장 버튼
     const saveAction = isText ? `saveToCustomPalette('${layers[idx].color}')` : `saveToCustomPalette('${layers[idx].strokeColor}')`;
     html += `<div class="palette-actions">
         <div class="color-preview-big" style="background:${currentVal}"></div>
-        <button class="btn-save-color" onclick="${saveAction}"><i class="fas fa-plus"></i> 색 저장</button>
-    </div>`;
+        <button class="btn-save-color" onclick="${saveAction}"><i class="fas fa-plus"></i> ${translations[currentLang].btn_save_color}</button>
+    </div></div>`;
     
-    html += '</div>'; // wrapper end
-    
-    // 컬러 피커 (숨김 또는 표시)
     const pickerId = isText ? `textColor_${idx}` : `strokeColor_${idx}`;
     const updateFn = isText ? `updateLayer(${idx}, 'color', this)` : `updateLayer(${idx}, 'strokeColor', this)`;
     html += `<div class="color-input-wrapper"><input type="color" id="${pickerId}" value="${currentVal}" oninput="${updateFn}"></div>`;
-    
     return html;
 }
 
 function renderLayersUI() {
+    const t = translations[currentLang];
     const container = document.getElementById('textLayersContainer');
     container.innerHTML = '';
     
@@ -724,17 +736,17 @@ function renderLayersUI() {
             fontOptions += `<option value="${f.name}" ${layer.fontFamily === f.name ? 'selected' : ''}>📂 ${f.displayName}</option>`;
         });
 
-        const isTextTab = layer.activeTab !== 'outline'; // Default text
+        const isTextTab = layer.activeTab !== 'outline';
         
         div.innerHTML = `
             <button class="remove-btn" onclick="removeLayer(${layer.id})"><i class="fas fa-times"></i></button>
-            <label>내용</label><input type="text" value="${layer.text}" oninput="updateLayer(${idx}, 'text', this)">
+            <label>${t.label_content}</label><input type="text" value="${layer.text}" oninput="updateLayer(${idx}, 'text', this)">
             <div style="display: grid; grid-template-columns: 1.5fr 1fr; gap: 8px; margin-bottom: 6px;">
                 <div>
-                    <label>글꼴</label>
+                    <label>${t.label_font}</label>
                     <select onchange="updateLayer(${idx}, 'fontFamily', this)">${fontOptions}</select>
                 </div>
-                <div><label>크기</label><input type="number" value="${layer.fontSize}" oninput="updateLayer(${idx}, 'fontSize', this)"></div>
+                <div><label>${t.label_layer_size}</label><input type="number" value="${layer.fontSize}" oninput="updateLayer(${idx}, 'fontSize', this)"></div>
             </div>
             
             <div class="style-group">
@@ -743,32 +755,29 @@ function renderLayersUI() {
                 <button class="style-btn ${layer.isUnderline ? 'active' : ''}" onclick="toggleStyle(${idx}, 'isUnderline')">U</button>
             </div>
             
-            <!-- 탭 메뉴 (색상 -> 글자색 변경) -->
             <div class="tab-container">
-                <button class="tab-btn ${isTextTab ? 'active' : ''}" onclick="setLayerTab(${idx}, 'text')"><i class="fas fa-palette"></i> 글자색</button>
-                <button class="tab-btn ${!isTextTab ? 'active' : ''}" onclick="setLayerTab(${idx}, 'outline')"><i class="fas fa-pen"></i> 외곽선</button>
+                <button class="tab-btn ${isTextTab ? 'active' : ''}" onclick="setLayerTab(${idx}, 'text')"><i class="fas fa-palette"></i> ${t.label_text_color}</button>
+                <button class="tab-btn ${!isTextTab ? 'active' : ''}" onclick="setLayerTab(${idx}, 'outline')"><i class="fas fa-pen"></i> ${t.label_stroke}</button>
             </div>
             
-            <!-- 탭 콘텐츠: 텍스트 색상 -->
             <div class="tab-content ${isTextTab ? 'active' : ''}">
                 ${generateTabPaletteHTML(idx, 'text')}
             </div>
             
-            <!-- 탭 콘텐츠: 외곽선 -->
             <div class="tab-content ${!isTextTab ? 'active' : ''}">
                 <div class="toggle-row" style="margin-bottom:5px;">
-                    <span class="toggle-label">외곽선 사용</span>
+                    <span class="toggle-label">${t.label_stroke} 사용</span>
                     <input type="checkbox" ${layer.useStroke ? 'checked' : ''} onchange="updateLayer(${idx}, 'useStroke', this)">
                 </div>
                 <div class="sub-option-box">
-                    <label>두께</label>
+                    <label>${t.label_layer_thickness}</label>
                     <input type="range" min="0" max="40" value="${layer.strokeWidth}" oninput="updateLayer(${idx}, 'strokeWidth', this)">
                 </div>
                 ${generateTabPaletteHTML(idx, 'outline')}
             </div>
 
             <div style="margin-top:10px; opacity:0.6;">
-                <label>위치 미세조정</label>
+                <label>${t.label_pos_layer}</label>
                 <input type="range" min="0" max="100" value="${(layer.x / 1280) * 100}" oninput="updateLayer(${idx}, 'posX', this)">
                 <input type="range" min="0" max="100" value="${(layer.y / 720) * 100}" oninput="updateLayer(${idx}, 'posY', this)">
             </div>
@@ -783,14 +792,12 @@ function renderBorderPalette() {
     const preview = document.getElementById('borderPreviewBox');
     const colorVal = document.getElementById('borderColor').value;
     
-    // 16색
     let html16 = '';
     smartColors.forEach(c => {
         html16 += `<div class="color-cell" style="background:${c}" onclick="updateBorderColor('${c}', false)"></div>`;
     });
     container16.innerHTML = html16;
     
-    // 커스텀
     let htmlCustom = '';
     customPalette.forEach(c => {
         if(c) htmlCustom += `<div class="color-cell" style="background:${c}" onclick="updateBorderColor('${c}', false)"></div>`;
@@ -818,7 +825,6 @@ function saveToCustomPaletteFromBorder() {
     saveToCustomPalette(document.getElementById('borderColor').value);
 }
 
-// ... (기타 함수들: updateLayer, removeLayer, toggleStyle, addTextLayer 등은 그대로 유지하되 탭 관련 업데이트 반영)
 function updateLayer(idx, key, element) {
     let value = element.value;
     if (element.type === 'checkbox') value = element.checked;
@@ -829,7 +835,7 @@ function updateLayer(idx, key, element) {
     else layers[idx][key] = value;
     
     drawCanvas();
-    if(key === 'color' || key === 'strokeColor') renderLayersUI(); // 색상 변경 시 미리보기 업데이트를 위해 리렌더링 (최적화 가능하나 단순화)
+    if(key === 'color' || key === 'strokeColor') renderLayersUI();
 }
 function toggleStyle(idx, key) {
     layers[idx][key] = !layers[idx][key];
@@ -841,7 +847,7 @@ function removeLayer(id) {
 }
 function addTextLayer() {
     layers.push({
-        id: Date.now(), text: '새 텍스트', x: 640, y: 360, fontSize: 80, fontFamily: 'Impact',
+        id: Date.now(), text: 'NEW TEXT', x: 640, y: 360, fontSize: 80, fontFamily: 'Impact',
         color: '#FFFFFF', useStroke: true, strokeColor: '#000000', strokeWidth: 10,
         isBold: true, isItalic: false, isUnderline: false, useBg: false, bgColor: '#000000',
         activeTab: 'text'
@@ -850,7 +856,6 @@ function addTextLayer() {
     document.getElementById('section-text').classList.remove('collapsed');
 }
 
-// 배경 처리
 function handleImageUpload(input) {
     if (input.files && input.files[0]) {
         const reader = new FileReader();
@@ -931,7 +936,6 @@ function applyPreset(type) {
     drawCanvas(); renderLayersUI();
 }
 
-// 캔버스 드래그
 canvas.addEventListener('mousedown', e => {
     const rect = canvas.getBoundingClientRect();
     const x = (e.clientX - rect.left) * (canvas.width / rect.width);
@@ -960,7 +964,6 @@ canvas.addEventListener('mousemove', e => {
 });
 canvas.addEventListener('mouseup', () => { isDragging = false; dragLayerIndex = -1; });
 
-// 드로잉 (메인)
 function drawCanvas() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     if (bgImage) {
@@ -1008,27 +1011,22 @@ function drawOverlays() {
         ctx.beginPath(); ctx.roundRect(borderW/2, borderW/2, 1280 - borderW, 720 - borderW, borderR); ctx.stroke();
     }
     if (document.getElementById('checkSafeZone').checked) {
-        // 미리보기 모드에 따른 비율 조정 (1280x720 캔버스 기준)
         let timeScale = 1;
-        if (previewMode === 'main') timeScale = 0.7; // 대형화면: 상대적으로 시간이 작아보임
-        else if (previewMode === 'mobile') timeScale = 1.6; // 소형화면: 상대적으로 시간이 커보임 (약 2.3배 차이)
+        if (previewMode === 'main') timeScale = 0.85;
+        else if (previewMode === 'mobile') timeScale = 1.6;
 
-        // 바이탈펑크 썸네일 스타일 정밀 조정
         const timeText = "4:14";
         const marginX = 15 * timeScale;
         const marginY = 15 * timeScale;
         const fontSize = 20 * timeScale;
         const iconSize = 18 * timeScale;
-        const paddingX = 8 * timeScale; // 박스 좌우 패딩
+        const paddingX = 8 * timeScale;
         
         ctx.save();
-        
-        // 텍스트 너비 계산 (폰트 설정 후)
         ctx.font = `bold ${fontSize}px sans-serif`;
         const textMetrics = ctx.measureText(timeText);
         const textWidth = textMetrics.width;
         
-        // 아이콘 너비 및 간격 계산
         const hasMusicIcon = document.getElementById('checkMusicIcon').checked;
         let iconWidth = 0;
         let iconGap = 0;
@@ -1037,49 +1035,41 @@ function drawOverlays() {
             ctx.font = `${iconSize}px FontAwesome`;
             const iconMetrics = ctx.measureText('\uf001');
             iconWidth = iconMetrics.width;
-            iconGap = 10 * timeScale; // 음표와 시간 사이 간격 (한칸 띄움 효과)
+            iconGap = 10 * timeScale;
         }
         
-        // 박스 전체 크기 계산
         const boxHeight = 36 * timeScale;
         const contentWidth = textWidth + iconWidth + iconGap;
         const boxWidth = contentWidth + (paddingX * 2);
         
-        // 박스 위치 계산 (우측 하단)
         const boxX = 1280 - boxWidth - marginX;
         const boxY = 720 - boxHeight - marginY;
         
-        // 1. 노란색 점선 가이드라인
         ctx.strokeStyle = '#FFD700';
         ctx.lineWidth = 3;
         ctx.setLineDash([8, 6]);
         ctx.beginPath();
-        // 시간 표시보다 약간 더 큰 영역을 가이드로 표시
         ctx.roundRect(boxX - 5, boxY - 5, boxWidth + 10, boxHeight + 10, 8 * timeScale);
         ctx.stroke();
         
-        // 2. 시간 표시 배경
         ctx.fillStyle = 'rgba(0, 0, 0, 0.8)';
         ctx.beginPath();
         ctx.roundRect(boxX, boxY, boxWidth, boxHeight, 6 * timeScale);
         ctx.fill();
 
-        // 텍스트/아이콘 베이스라인 (수직 중앙)
         const contentCenterY = boxY + (boxHeight / 2);
         ctx.textBaseline = 'middle';
         
         let cursorX = boxX + paddingX;
 
-        // 3. 음표 아이콘 그리기 (왼쪽 정렬)
         if (hasMusicIcon) {
              ctx.fillStyle = 'white';
              ctx.font = `${iconSize}px FontAwesome`;
              ctx.textAlign = 'left';
-             ctx.fillText('\uf001', cursorX, contentCenterY + (1 * timeScale)); // 약간의 수직 보정
+             ctx.fillText('\uf001', cursorX, contentCenterY + (1 * timeScale));
              cursorX += iconWidth + iconGap;
         }
 
-        // 4. 시간 텍스트 그리기
         ctx.fillStyle = 'white';
         ctx.font = `bold ${fontSize}px sans-serif`;
         ctx.textAlign = 'left';
@@ -1088,17 +1078,25 @@ function drawOverlays() {
         ctx.restore();
     }
     
-    // 일반 아이콘 단독 체크 (SafeZone 미사용 시)
     if (document.getElementById('checkMusicIcon').checked && !document.getElementById('checkSafeZone').checked) {
         ctx.fillStyle = '#ff0000'; ctx.beginPath(); ctx.arc(60, 60, 30, 0, Math.PI * 2); ctx.fill();
         ctx.fillStyle = 'white'; ctx.font = '30px FontAwesome'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.fillText('\uf001', 60, 60);
     }
     
+    // --- 그리드 스타일 변경 (노란색 점선 굵게) ---
     if (activeGrid > 0) {
-        ctx.strokeStyle = 'rgba(0, 255, 255, 0.5)'; ctx.lineWidth = 1; ctx.beginPath();
+        ctx.save();
+        ctx.strokeStyle = '#FFFF00'; // 노란색
+        ctx.lineWidth = 2; // 조금 더 굵게
+        ctx.setLineDash([10, 10]); // 점선
+        ctx.beginPath();
         const stepX = 1280 / activeGrid; const stepY = 720 / activeGrid;
-        for (let i = 1; i < activeGrid; i++) { ctx.moveTo(stepX * i, 0); ctx.lineTo(stepX * i, 720); ctx.moveTo(0, stepY * i); ctx.lineTo(1280, stepY * i); }
+        for (let i = 1; i < activeGrid; i++) { 
+            ctx.moveTo(stepX * i, 0); ctx.lineTo(stepX * i, 720); 
+            ctx.moveTo(0, stepY * i); ctx.lineTo(1280, stepY * i); 
+        }
         ctx.stroke();
+        ctx.restore();
     }
 }
 function toggleSection(id) { document.getElementById(id).classList.toggle('collapsed'); }
@@ -1106,9 +1104,61 @@ function jumpToSection(id, btn) {
     document.getElementById(id).classList.remove('collapsed'); document.getElementById(id).scrollIntoView({ behavior: 'smooth', block: 'center' });
     document.querySelectorAll('.quick-btn').forEach(b => b.classList.remove('active')); btn.classList.add('active');
 }
-// 리스트 영상 인라인 재생 함수 추가
 function playInlineVideo(container, videoId) {
     container.innerHTML = `<iframe src="https://www.youtube.com/embed/${videoId}?autoplay=1&playsinline=1" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="position:absolute; top:0; left:0; width:100%; height:100%; border:none;"></iframe>`;
+}
+function saveSettings() {
+    const settings = {
+        bgLayer: { x: bgConfig.x, y: bgConfig.y, w: bgConfig.width, h: bgConfig.height, locked: bgConfig.isLocked, aspectRatio: bgConfig.aspectRatio },
+        textLayers: layers,
+        effects: {
+            checkGradient: document.getElementById('checkGradient').checked,
+            gradIntensity: document.getElementById('gradIntensity').value,
+            checkBorder: document.getElementById('checkBorder').checked,
+            borderWidth: document.getElementById('borderWidth').value,
+            borderRadius: document.getElementById('borderRadius').value,
+            borderColor: document.getElementById('borderColor').value,
+            checkSafeZone: document.getElementById('checkSafeZone').checked,
+            checkMusicIcon: document.getElementById('checkMusicIcon').checked
+        }
+    };
+    const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(settings));
+    const downloadAnchorNode = document.createElement('a');
+    downloadAnchorNode.setAttribute("href", dataStr);
+    downloadAnchorNode.setAttribute("download", "thumbnail_settings.json");
+    document.body.appendChild(downloadAnchorNode); 
+    downloadAnchorNode.click();
+    downloadAnchorNode.remove();
+}
+
+function loadSettings(input) {
+    if (!input.files || !input.files[0]) return;
+    const file = input.files[0];
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        try {
+            const settings = JSON.parse(e.target.result);
+            if (settings.textLayers) { layers = settings.textLayers; renderLayersUI(); }
+            if (settings.effects) {
+                document.getElementById('checkGradient').checked = settings.effects.checkGradient;
+                document.getElementById('gradIntensity').value = settings.effects.gradIntensity;
+                document.getElementById('checkBorder').checked = settings.effects.checkBorder;
+                document.getElementById('borderWidth').value = settings.effects.borderWidth;
+                document.getElementById('borderRadius').value = settings.effects.borderRadius;
+                document.getElementById('borderColor').value = settings.effects.borderColor;
+                document.getElementById('checkSafeZone').checked = settings.effects.checkSafeZone;
+                document.getElementById('checkMusicIcon').checked = settings.effects.checkMusicIcon;
+            }
+            if (settings.bgLayer && bgImage) {
+                bgConfig.x = settings.bgLayer.x; bgConfig.y = settings.bgLayer.y; bgConfig.width = settings.bgLayer.w; bgConfig.height = settings.bgLayer.h; bgConfig.isLocked = settings.bgLayer.locked; 
+                updateBgPos('input'); updateBgSize('w'); updateBgLock();
+            }
+            drawCanvas();
+            alert("설정이 성공적으로 로드되었습니다.");
+        } catch (error) { console.error(error); alert("설정 파일을 읽는 중 오류가 발생했습니다."); }
+    };
+    reader.readAsText(file);
+    input.value = '';
 }
 initLayers();
 </script>
